@@ -9,9 +9,10 @@ def log(f):
     
     return wrapper
 
+@log
 def func(a):
     a += 1
     return a
 
-func = log(func)
+
 b = func(2)
