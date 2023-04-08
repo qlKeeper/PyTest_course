@@ -1,15 +1,17 @@
 def log(f):
-    pass
+    
     def wrapper(arg):
-        pass
-
-
+        print("Выполнялось до инкремента")
+        return_value = f(arg)
+        print(return_value)
+        print("Выполнялось после инкремента")
+        return return_value
+    
+    return wrapper
 
 def func(a):
-    print("Выполнялось до инкремента") # Логи
     a += 1
-    print(a)
-    print("Выполнялось после инкремента")
     return a
 
+func = log(func)
 b = func(2)
