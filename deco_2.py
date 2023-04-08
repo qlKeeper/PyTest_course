@@ -1,13 +1,14 @@
 def my_decor(func):  # Декоратор
-    def wrapper():
+    def wrapper(n): 
         print('start')
-        func()
+        return_val = func(n) #  Вызов декарируемой функции 
         print('end')
+        return return_val
     return wrapper
 
 
 @my_decor
-def my_func():
-    print("Тут основная функция")
+def my_func(number):
+    return number ** 2
 
-my_func()
+print(my_func(10))
