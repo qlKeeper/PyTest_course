@@ -1,7 +1,12 @@
-def test_equal():
-    assert 1 == 1, "Number is not equal to expected"
+import sys; sys.path.append('../Test_Automation_with_Pytest_and_Python')
+import requests
+from configuration import SERVICE_URL
+from src.enums.global_enums import GlobalErrorMessages
 
 
-def test_is_not_equal():
-    assert 1 != 2, "Number is equal"
+def test_getting_posts():
+    response = requests.get(url=SERVICE_URL)
+    received_posts = response.json()
 
+    assert response.status_code == 200, GlobalErrorMessages.WRONG_STATUS_CODE.value
+    assert len(received_posts) == 3, GlobalErrorMessages.WRONG_ELEMENT_COUNT.value
