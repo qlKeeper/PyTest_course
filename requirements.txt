@@ -1,4 +1,3 @@
-pydantic
-pytest
+allure-pytest
 requests
-jsonschema
+pytest
