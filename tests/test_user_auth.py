@@ -1,4 +1,3 @@
-import sys, os; sys.path.extend([os.path.dirname(os.path.dirname(__file__))])
 import requests
 import pytest
 from lib.base_case import BaseCase
