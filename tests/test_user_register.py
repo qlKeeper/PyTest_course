@@ -2,6 +2,8 @@ from lib.my_requests import MyRequests
 from lib.base_case import BaseCase
 from lib.assertions import Assertions
 from datetime import datetime
+import pytest
+
 
 class TestUserRegister(BaseCase):
 
@@ -26,3 +28,35 @@ class TestUserRegister(BaseCase):
         assert  response.content.decode('utf-8') == \
             f"Users with email '{email}' already exists", \
                 f"Неожиданный контент ответа {response.content}"
+        
+    
+    # Негативный тест
+    def test_create_user_with_incorrect_email(self):
+        email = 'rogov#example.com'
+        data = self.prepare_registration_data(email)
+
+        response = MyRequests.post('/user/', data)
+
+        Assertions.assert_code_status(response, 400)
+        assert response.text == 'Invalid email format', \
+            f"Некорректное тело ответа '{response.text}'" 
+    
+
+    # Негативный тест
+    @pytest.mark.parametrize('key', 
+    [('username'), ('firstName'), ('lastName'), ('email'), ('password')])
+    def test_creating_a_user_without_specifying_one_of_the_fields(self, key):
+        
+        data = {
+            'username': 'Plebes',
+            'firstName': 'Pasha',
+            'lastName': 'Rogov',
+            'email': 'rogov@gmail.com',
+            'password': '123'
+            }
+        
+        data[key] = None
+        response = MyRequests.post('/user/', data)
+
+        Assertions.assert_code_status(response, 400)
+        assert response.text == f"The following required params are missed: {key}"
